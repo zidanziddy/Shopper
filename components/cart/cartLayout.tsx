@@ -3,7 +3,6 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCart, plusQuantity, minusQuantity, deleteProduct } from '@/app/redux/shopperSlice';
-import FormattedPrice from '../formattedPrice';
 import { useRouter } from 'next/navigation';
 
 const CartLayout = ({ productData }) => {
