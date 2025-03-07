@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { resetCart, plusQuantity, minusQuantity, deleteProduct } from '@/app/redux/shopperSlice';
 import FormattedPrice from '../formattedPrice';
 import { useRouter } from 'next/navigation';
-import {loadStripe} from '@stripe/stripe-js'
 
 const CartLayout = ({ productData }) => {
 
@@ -14,7 +13,6 @@ const CartLayout = ({ productData }) => {
   const router = useRouter()
   
   //stripe 
-  const stripePromise = loadStripe(process.env.STRIPE_PUBLICK_EY)
 
   console.log('cartlayout -', productData);
   const dispatch = useDispatch();
