@@ -9,7 +9,7 @@ import {
   sliderImgThree,
   sliderImgFour,
   sliderImgFive,
-} from "../../public/assets /images/index"; // ✅ Fixed import path
+} from "../../public/assets /images/index"; // Remove space in path
 import Image from "next/image";
 
 const Slider = dynamic(() => import("react-slick"), { ssr: false });
@@ -29,31 +29,50 @@ const Banner = () => {
   return (
     <div className="flex items-center justify-center p-5 h-full">
       <div className="container flex flex-col lg:flex-row justify-around items-stretch">
-
-        {/* ✅ Mobile & Tablet: Show Only Carousel with Size Constraints */}
-        <div className="w-full max-w-[600px] max-h-[400px] rounded-lg shadow-md m-3 p-5 lg:hidden">
+        {/* Mobile & Tablet Carousel */}
+        <div className="w-full max-w-[600px] h-[300px] sm:h-[400px] rounded-lg shadow-md m-3 lg:hidden relative">
           <Slider {...settings}>
-            <div><Image src={sliderImgOne} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgTwo} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgThree} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgFour} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgFive} alt="image" priority className="w-full h-full object-cover" /></div>
+            {[sliderImgOne, sliderImgTwo, sliderImgThree, sliderImgFour, sliderImgFive].map(
+              (img, index) => (
+                <div key={index} className="relative h-[300px] sm:h-[400px]">
+                  <Image
+                    src={img}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 600px"
+                  />
+                </div>
+              )
+            )}
           </Slider>
         </div>
 
-        {/* ✅ Desktop View: Full Layout (Carousel + Product) */}
-        <div className="hidden lg:flex w-2/3 max-w-[700px] max-h-[450px] rounded-lg shadow-md m-3 p-5">
-          <Slider {...settings}>
-            <div><Image src={sliderImgOne} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgTwo} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgThree} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgFour} alt="image" priority className="w-full h-full object-cover" /></div>
-            <div><Image src={sliderImgFive} alt="image" priority className="w-full h-full object-cover" /></div>
-          </Slider>
-        </div>
+        {/* Desktop Layout */}
+        <div className="hidden lg:flex w-full max-w-[1200px] gap-4">
+          {/* Desktop Carousel */}
+          <div className="flex-1 max-w-[800px] h-[450px] rounded-lg shadow-md overflow-hidden">
+            <Slider {...settings}>
+              {[sliderImgOne, sliderImgTwo, sliderImgThree, sliderImgFour, sliderImgFive].map(
+                (img, index) => (
+                  <div key={index} className="relative h-[450px]">
+                    <Image
+                      src={img}
+                      alt={`Slide ${index + 1}`}
+                      fill
+                      priority
+                      className="object-cover"
+                      sizes="800px"
+                    />
+                  </div>
+                )
+              )}
+            </Slider>
+          </div>
 
-        {/* ✅ Product Section (Only on Desktop) */}
-        <div className="hidden lg:flex w-1/3 max-w-[350px] rounded-lg border h-full p-4 flex-col justify-between shadow-md m-3">
+          {/* Product Section */}
+          <div className="hidden lg:flex w-1/3 max-w-[350px] rounded-lg border h-full p-4 flex-col justify-between shadow-md m-3">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-semibold">Flash Pick of the Day</h2>
             <p className="hover:underline text-2xl">View All</p>
@@ -71,6 +90,19 @@ const Banner = () => {
         </div>
 
       </div>
+    </div>
+      
+      
+
+      {/* Add global CSS fixes */}
+      <style jsx global>{`
+        .slick-list, .slick-track, .slick-slide > div {
+          height: 100% !important;
+        }
+        .slick-slide img {
+          display: block !important;
+        }
+      `}</style>
     </div>
   );
 };

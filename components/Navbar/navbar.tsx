@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { adduser, removeUser } from "@/app/redux/shopperSlice";
 
-// ✅ Correct Image Import
 import logo from "@/public/assets /images/logo.png";
 
 const Navbar = () => {
