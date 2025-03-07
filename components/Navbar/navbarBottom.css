@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+
+
+@layer components{
+   .appearence { 
+    @apply text-amber-50 p-2
+   }
+   .bottomUnderLine {
+    @apply  hover:underline ring-offset-2
+   }
+   
+}

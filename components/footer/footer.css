@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+
+
+@layer components{
+.li{
+  @apply hover:text-white hover:cursor-pointer
+}
+ }
+   

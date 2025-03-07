@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+
+
+@layer components{
+ .buttonAdd {
+  @apply border-1 rounded-3xl p-3 w-[100] m-0 hover:cursor-pointer hover:bg-blue-200 hover:text-black
+ } 
+ .buttonDetails {
+  @apply  border-1 rounded-3xl p-3 w-[100] m-0 hover:cursor-pointer hover:bg-blue-200 hover:text-black
+
+ }
+   
+}
