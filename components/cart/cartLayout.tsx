@@ -57,10 +57,10 @@ const CartLayout = ({ productData }) => {
               <p className="font-semibold text-lg">{item.title}</p>
               <p className="text-gray-500 text-sm">{item.category}</p>
               <p className="text-green-600 font-bold text-xl">
-                <FormattedPrice amount={item.price} />
+                ${item.price} 
               </p>
               <p className="text-gray-500 line-through">
-                <FormattedPrice amount={item.oldPrice} />
+                ${item.oldPrice} 
               </p>
               <p className="text-sm text-green-500 font-semibold">
                 You save ${(item.oldPrice - item.price).toFixed(2)}
