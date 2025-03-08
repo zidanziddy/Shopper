@@ -13,6 +13,7 @@ import { adduser, removeUser } from "@/app/redux/shopperSlice";
 
 import logo from "@/public/assets /images/logo.png";
 
+
 const Navbar = () => {
   const { data: session } = useSession();
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ const Navbar = () => {
               onClick={() => signOut()}
             >
               <FaRegHeart />
-              <Image src={userInfo.image} alt="User" width={40} height={40} className="rounded-full" />
+              {/* <Image src={userInfo.image} alt="User" width={40} height={40} className="rounded-full" /> */}
               <p>
                 {userInfo?.name} <br />
                 <span className="font-bold">Sign Out</span>
@@ -101,6 +102,7 @@ const Navbar = () => {
               </p>
             </div>
           )}
+          {userInfo?"":<Link href={'/signup'}>Signup</Link>}
 
           {/* ✅ Cart */}
           <Link href="/cart">

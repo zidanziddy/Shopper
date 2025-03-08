@@ -2,8 +2,10 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
+import { getDocs, where, query, collection } from "firebase/firestore";
+import { db } from "@/app/firebase/config";
 
-export const authOptions: NextAuthOptions = {  
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -20,13 +22,52 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", placeholder: "password" },
       },
       async authorize(credentials) {
-        const user = { id: "1", name: "Smith", email: "jsmith@example.com", password: "12345" };
+        async function debugFirestore() {
+          const usersCollection = collection(db, "users");
+          const snapshot = await getDocs(usersCollection);
+          
+          console.log("Firestore Users:");
+          snapshot.forEach((doc) => {
+            console.log(doc.id, "=>", doc.data());
+          });
+        }
+        debugFirestore();
+        console.log("Received credentials:", credentials);
 
-        if (credentials?.username === user.name && credentials?.password === user.password) {
-          return user;
-        } else {
+        if (!credentials?.username || !credentials?.password) {
+          console.error("Missing username or password");
+          throw new Error("Missing username or password");
+        }
+
+        // Query Firestore to find the user
+        const q = query(collection(db, "users"), where("email", "==", credentials.username));
+        const querySnapshot = await getDocs(q);
+
+        console.log("Query snapshot size:", querySnapshot.size);
+
+        if (querySnapshot.empty) {
+          console.error("User not found in Firestore");
           throw new Error("Invalid username or password");
         }
+
+        const userDoc = querySnapshot.docs[0]; // Assuming username is unique
+        const user = userDoc.data();
+
+        console.log("User found in Firestore:", user);
+
+        
+        if (credentials.password !== user.password) {
+          console.error("Password mismatch");
+          throw new Error("Invalid username or password");
+        }
+
+        console.log("User authenticated successfully");
+
+        return {
+          id: userDoc.id,
+          name: user.username,
+          email: user.email,
+        };
       },
     }),
   ],
